@@ -55,10 +55,11 @@ void sl_addentry(struct entry** sl, int value) {
 	if (*sl == NULL) {
 		*sl = tmpentry;
 	} else {
-		while ((*sl)->next != NULL) {
-			*sl = (*sl)->next;
+		struct entry* iterate = *sl;
+		while (iterate->next != NULL) {
+			iterate = iterate->next;
 		}
-		(*sl)->next = tmpentry;
+		iterate->next = tmpentry;
 	}		
 
 	printf("Added entry.\n");
@@ -73,6 +74,7 @@ int main(void) {
 	
 	sl_addentry(&skiplist, 5);
 	sl_addentry(&skiplist, 7);
+	sl_addentry(&skiplist, 9);
 
 	sl_print(skiplist);
 
