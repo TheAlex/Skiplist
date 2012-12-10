@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "skiplist.h"
+#include <math.h>
 
 /**
  * This is the struct for a listitem. It contains the value of the item,
@@ -11,6 +11,7 @@ struct entry {
 	int value;
 	struct entry* next;
 	struct oneup* oneup;
+	int oneups;
 };
 
 /**
@@ -23,6 +24,31 @@ struct oneup {
 	struct oneup* oneup;
 };
 
+int oneupcount(int cnt_entries) {
+
+	int result = 0;
+
+	result = (int) ( log10(cnt_entries) / log10(2) );
+
+	return result;
+}
+
+int entry_compare(struct entry* e1, struct entry* e2) {
+
+	int result = 0;
+
+	int res = e1->value - e2->value;
+
+	if ( res > 0 ) {
+		result = 1;
+	} else if ( res < 0 ) {
+		result = -1;
+	} else {
+		result = 0;
+	}
+
+	return result;
+}
 
 void sl_print(struct entry* sl) {
 
@@ -43,6 +69,8 @@ void sl_print(struct entry* sl) {
 
 void sl_addentry(struct entry** sl, int value) {
 
+	static int cnt_entries = 0;
+
 	printf("----------------------------\n");
 	printf("Adding entry with value %4d\n", value);
 
@@ -51,6 +79,7 @@ void sl_addentry(struct entry** sl, int value) {
 	tmpentry->value = value;
 	tmpentry->next = NULL;
 	tmpentry->oneup = NULL;
+	tmpentry->oneups = 0;
 
 	if (*sl == NULL) {
 		*sl = tmpentry;
@@ -62,7 +91,8 @@ void sl_addentry(struct entry** sl, int value) {
 		iterate->next = tmpentry;
 	}		
 
-	printf("Added entry.\n");
+	cnt_entries +=1;
+	printf("Added entry. Count=%d. Oneupcount=%d\n", cnt_entries, oneupcount(cnt_entries));
 
 }
 
@@ -74,6 +104,18 @@ int main(void) {
 	
 	sl_addentry(&skiplist, 5);
 	sl_addentry(&skiplist, 7);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
+	sl_addentry(&skiplist, 9);
 	sl_addentry(&skiplist, 9);
 
 	sl_print(skiplist);
