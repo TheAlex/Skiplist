@@ -59,7 +59,8 @@ void sl_print(struct entry* sl) {
 		printf("***List not initialized. Nothing to print.\n");
 	} else {
 		while (sl != NULL) {
-			printf("entry: %8x, value: %4d, next: %8x, oneup: %8x\n", sl, sl->value, sl->next, sl->oneup);
+			printf("entry: %p, value: %4d, next: %p, oneup: %8p\n", \
+				sl, sl->value, sl->next, sl->oneup);
 			sl = sl->next;
 		}
 
@@ -101,7 +102,7 @@ int main(void) {
 	struct entry* skiplist = NULL;
 
 	sl_print(skiplist);
-	
+
 	sl_addentry(&skiplist, 5);
 	sl_addentry(&skiplist, 7);
 	sl_addentry(&skiplist, 9);
@@ -120,4 +121,5 @@ int main(void) {
 
 	sl_print(skiplist);
 
+	return 0;
 }
